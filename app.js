@@ -1,67 +1,104 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const db = require("./db/queries");
+
 const app = express();
 
-// Set up EJS as the view engine
+// View engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// Middleware to parse form data
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 
-// Sample messages array
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
+/* -------------------------
+   HOME PAGE
+-------------------------- */
+app.get("/", async (req, res) => {
+  const messages = await db.getAllMessages();
 
-// Routes
-app.get("/", (req, res) => {
-  res.render("index", { title: "Mini Message Board", messages: messages });
-});
-
-app.get("/new", (req, res) => {
-  res.render("form", { title: "New Message" });
-});
-
-app.post("/new", (req, res) => {
-  const { messageText, messageUser } = req.body;
-  messages.push({
-    text: messageText,
-    user: messageUser,
-    added: new Date()
+  res.render("index", {
+    title: "Mini Message Board",
+    messages,
   });
+});
+
+/* -------------------------
+   NEW MESSAGE FORM (GET)
+-------------------------- */
+app.get("/new", (req, res) => {
+  res.render("form", {
+    title: "New Message",
+    errors: [],
+    old: {},
+  });
+});
+
+/* -------------------------
+   CREATE MESSAGE (POST)
+-------------------------- */
+app.post("/new", async (req, res) => {
+  const { messageUser, messageText } = req.body;
+
+  const errors = [];
+
+  // Validation
+  if (!messageUser || messageUser.trim() === "") {
+    errors.push("Name is required");
+  }
+
+  if (!messageText || messageText.trim() === "") {
+    errors.push("Message cannot be empty");
+  }
+
+  if (messageText && messageText.length > 300) {
+    errors.push("Message must be less than 300 characters");
+  }
+
+  // If errors → re-render form
+  if (errors.length > 0) {
+    return res.render("form", {
+      title: "New Message",
+      errors,
+      old: {
+        messageUser,
+        messageText,
+      },
+    });
+  }
+
+  // Save to DB
+  await db.addMessage(messageText, messageUser);
+
   res.redirect("/");
 });
 
-// Message details route
-app.get("/message/:id", (req, res) => {
+/* -------------------------
+   MESSAGE DETAILS
+-------------------------- */
+app.get("/message/:id", async (req, res) => {
   const messageId = parseInt(req.params.id);
 
-  if (messageId >= 0 && messageId < messages.length) {
-    res.render("message", {
-      title: "Message Details",
-      message: messages[messageId],
-      messageId: messageId
-    });
-  } else {
-    res.status(404).send("Message not found");
+  const message = await db.getMessageById(messageId);
+
+  if (!message) {
+    return res.status(404).send("Message not found");
   }
+
+  res.render("message", {
+    title: "Message Details",
+    message,
+    messageId,
+  });
 });
 
+/* -------------------------
+   START SERVER
+-------------------------- */
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, (error) => {
-  if (error) {
-    throw error;
-  }
+
+app.listen(PORT, () => {
   console.log(`Mini Message Board running on port ${PORT}!`);
 });
 

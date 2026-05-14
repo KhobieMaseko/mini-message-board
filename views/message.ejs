@@ -234,18 +234,16 @@
 
         <div class="message-detail-card">
             <div class="message-header">
-                <div class="user-avatar-large"><%= message.user.charAt(0) %></div>
+                <div class="user-avatar-large"><%= message.user_name.charAt(0) %></div>
                 <div class="user-info">
-                    <div class="user-name"><%= message.user %></div>
+                    <div class="user-name"><%= message.user_name %></div>
                     <div class="message-timestamp">
                         <span>📅</span>
-                        <%= message.added.toLocaleDateString('en-US', { 
-                            weekday: 'long',
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
+                        <%= new Date(message.added).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
                         }) %>
                     </div>
                 </div>

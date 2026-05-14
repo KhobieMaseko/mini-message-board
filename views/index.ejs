@@ -259,19 +259,17 @@
             </div>
         <% } else { %>
             <div class="messages-grid">
-                <% messages.slice().reverse().forEach(function(message, index) {
-                    const actualIndex = messages.length - 1 - index;
-                %>
+                <% messages.forEach(function(message) { %>
                     <div class="message-card">
                         <p class="message-text"><%= message.text %></p>
                         <div class="message-footer">
                             <div class="message-user">
-                                <div class="user-avatar"><%= message.user.charAt(0) %></div>
-                                <span><%= message.user %></span>
+                                <div class="user-avatar"><%= message.user_name.charAt(0) %></div>
+                                <span><%= message.user_name %></span>
                             </div>
                             <span class="message-date"><%= message.added.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></span>
                         </div>
-                        <a href="/message/<%= actualIndex %>" class="open-btn">
+                        <a href="/message/<%= message.id %>" class="open-btn">
                             Open Details →
                         </a>
                     </div>

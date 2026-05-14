@@ -220,6 +220,14 @@
             Back to messages
         </a>
 
+        <% if (errors && errors.length > 0) { %>
+            <div class="error-box">
+                <% errors.forEach(error => { %>
+                <p><%= error %></p>
+                <% }) %>
+            </div>
+        <% } %>
+
         <div class="form-card">
             <div class="form-header">
                 <h2>Share your thoughts</h2>
@@ -236,6 +244,7 @@
                         placeholder="Enter your name"
                         maxlength="50"
                         required
+                        value="<%= old ? old.messageUser : '' %>"
                     >
                 </div>
 
@@ -248,7 +257,7 @@
                         maxlength="500"
                         required
                         oninput="updateCharCount()"
-                    ></textarea>
+                    ><%= old ? old.messageText : '' %></textarea>
                     <div class="char-count">
                         <span id="charCount">0</span> / 500 characters
                     </div>
@@ -271,6 +280,9 @@
             const charCount = document.getElementById('charCount');
             charCount.textContent = textarea.value.length;
         }
+
+        // Run on page load too
+        window.onload = updateCharCount;
     </script>
 </body>
 </html>
