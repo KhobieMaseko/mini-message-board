@@ -1,162 +1,201 @@
 # Mini Message Board 💬
 
-A modern, responsive message board application built with Express.js and EJS templating - The Odin Project
+A modern, responsive message board application built with **Express.js, EJS, and PostgreSQL** as part of *The Odin Project*.
 
-![Message Board](https://img.shields.io/badge/Node.js-Express-green)
-![License](https://img.shields.io/badge/license-MIT-blue)
+---
 
 ## ✨ Features
 
-- 📱 Fully responsive design (mobile, tablet, desktop)
-- 🎨 Modern, professional UI with gradient accents
-- 💬 Post and view messages in real-time
-- 👤 User avatars with initials
-- 📅 Timestamp for each message
-- ✏️ Character counter on message form
-- 🎯 Card-based layout with hover effects
+* 📱 Fully responsive design (mobile, tablet, desktop)
+* 🎨 Modern UI with gradient accents
+* 💬 Post and view messages
+* 👤 Usernames displayed with each message
+* 📅 Automatic timestamps
+* 🗄️ Persistent storage with PostgreSQL (Render)
+* 🎯 Clean card-based layout
+
+---
 
 ## 🛠 Technologies Used
 
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
-- **EJS** - Embedded JavaScript templating
-- **Google Fonts (Inter)** - Typography
+* **Node.js** – JavaScript runtime
+* **Express.js** – Web framework
+* **EJS** – Templating engine
+* **PostgreSQL** – Database (hosted on Render)
+* **Render** – Deployment platform
 
-## 🚀 Local Development
+---
 
-### Installation
+## 🚀 Live Demo
 
-1. Clone the repository:
+👉 Deployed on Render (add your link here)
+
+---
+
+## 💻 Local Development
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/KhobieMaseko/mini-message-board.git
 cd mini-message-board
 ```
 
-2. Install dependencies:
+### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
-3. Start the development server:
+### 3. Set up environment variables
+
+Create a `.env` file:
+
+```env
+DB_USER=your_user
+DB_HOST=localhost
+DB_NAME=mini_message_board
+DB_PASSWORD=your_password
+DB_PORT=5432
+```
+
+### 4. Create database table
+
+Run this SQL in your local PostgreSQL:
+
+```sql
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  text TEXT NOT NULL,
+  user_name TEXT NOT NULL,
+  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 5. Start the server
+
 ```bash
 npm start
 ```
 
-Or with auto-restart:
+or (with auto-reload):
+
 ```bash
 npm run dev
 ```
 
-4. Open your browser and visit:
+Visit:
+
 ```
 http://localhost:3000
 ```
+
+---
+
+## 🌐 Deployment (Render)
+
+### ✅ Setup Summary
+
+1. Create a **Render PostgreSQL database**
+2. Copy the **Internal Database URL**
+3. Add environment variables in your Web Service:
+
+```env
+DATABASE_URL=your_render_postgres_url
+NODE_ENV=production
+```
+
+4. Ensure your app uses:
+
+```js
+connectionString: process.env.DATABASE_URL
+```
+
+---
+
+### ⚠️ Important
+
+After creating the database, you must manually create the table:
+
+```sql
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  text TEXT NOT NULL,
+  user_name TEXT NOT NULL,
+  added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
 
 ## 📁 Project Structure
 
 ```
 mini-message-board/
-├── app.js              # Main Express application
-├── package.json        # Project dependencies
-├── vercel.json         # Vercel deployment config
-└── views/              # EJS templates
-    ├── index.ejs       # Homepage (messages display)
-    └── form.ejs        # New message form
-    └── message.ejs     # Message details form
+├── app.js
+├── db/
+│   ├── pool.js
+│   └── queries.js
+├── package.json
+├── views/
+│   ├── index.ejs
+│   ├── form.ejs
+│   └── message.ejs
 ```
 
-## 🌐 Deployment
-
-### Deploy to Vercel
-
-1. Install Vercel CLI:
-```bash
-npm install -g vercel
-```
-
-2. Login to Vercel:
-```bash
-vercel login
-```
-
-3. Deploy:
-```bash
-vercel
-```
-
-4. For production deployment:
-```bash
-vercel --prod
-```
-
-Your app will be live at: `https://your-app-name.vercel.app`
-
-### Deploy via Vercel Dashboard
-
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Click "New Project"
-4. Import your GitHub repository
-5. Click "Deploy"
-
-## 📱 Responsive Breakpoints
-
-- **Mobile**: < 480px
-- **Tablet**: 481px - 768px
-- **Desktop**: > 768px
-
-## 🎨 Design Features
-
-- **Modern Card Layout**: Messages displayed in elegant cards
-- **Gradient Header**: Eye-catching purple gradient
-- **Hover Effects**: Interactive cards with smooth transitions
-- **User Avatars**: Circular avatars with user initials
-- **Empty State**: Beautiful placeholder when no messages exist
-- **Form Validation**: Character limits and required fields
+---
 
 ## 🔄 Routes
 
-- `GET /` - Display all messages
-- `GET /new` - Show new message form
-- `POST /new` - Submit new message
+* `GET /` → Display all messages
+* `GET /new` → Show new message form
+* `POST /new` → Submit new message
 
-## 📝 Learning Objectives
+---
+
+## 🧠 Learning Outcomes
 
 This project demonstrates:
-- Express.js setup and routing
-- EJS templating and data rendering
-- Form handling (GET/POST)
-- Responsive CSS Grid layouts
-- Modern UI/UX design principles
-- Vercel deployment configuration
+
+* Express routing and middleware
+* EJS templating
+* PostgreSQL integration
+* Environment variables & production config
+* Full-stack deployment (Render)
+* Debugging real-world deployment issues
+
+---
 
 ## 🔮 Future Enhancements
 
-- [ ] Database integration (PostgreSQL)
-- [ ] Message editing and deletion
-- [ ] User authentication
-- [ ] Message reactions/likes
-- [ ] Real-time updates with WebSockets
-- [ ] Message pagination
-- [ ] Search functionality
+* ✏️ Edit & delete messages
+* 🔐 User authentication
+* ❤️ Message likes/reactions
+* 🔄 Real-time updates
+* 🔍 Search functionality
+* 📄 Pagination
+
+---
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+MIT License
+
+---
 
 ## 👤 Author
 
 **Khobie Maseko**
-- GitHub: [@KhobieMaseko](https://github.com/KhobieMaseko)
+
+GitHub: https://github.com/KhobieMaseko
+
+---
 
 ## 🙏 Acknowledgments
 
-- [The Odin Project](https://www.theodinproject.com/) for the excellent curriculum
-- Inter font by Google Fonts
-
-## Screenshot
-
-<img width="1366" height="599" alt="mini message board" src="https://github.com/user-attachments/assets/4b9be313-6297-4c62-a5e5-91fa573fa849" />
+* The Odin Project
+* Render
+* PostgreSQL
 
 ---
 
