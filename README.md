@@ -62,6 +62,7 @@ mini-message-board/
 └── views/              # EJS templates
     ├── index.ejs       # Homepage (messages display)
     └── form.ejs        # New message form
+    └── message.ejs     # Message details form
 ```
 
 ## 🌐 Deployment
@@ -152,6 +153,10 @@ This project is open source and available under the MIT License.
 
 - [The Odin Project](https://www.theodinproject.com/) for the excellent curriculum
 - Inter font by Google Fonts
+
+## Screenshot
+
+<img width="1366" height="599" alt="mini message board" src="https://github.com/user-attachments/assets/4b9be313-6297-4c62-a5e5-91fa573fa849" />
 
 ---
 
