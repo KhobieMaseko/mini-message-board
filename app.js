@@ -1,9 +1,12 @@
-require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const db = require("./db/queries");
 
 const app = express();
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // View engine
 app.set("views", path.join(__dirname, "views"));
