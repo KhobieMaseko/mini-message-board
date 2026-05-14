@@ -28,7 +28,7 @@ A modern, responsive message board application built with **Express.js, EJS, and
 
 ## 🚀 Live Demo
 
-👉 Deployed on Render (add your link here)
+👉 Deployed on Render ([link](https://mini-message-board-8y9o.onrender.com))
 
 ---
 
